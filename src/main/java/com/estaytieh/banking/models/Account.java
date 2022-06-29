@@ -1,11 +1,11 @@
 package com.estaytieh.banking.models;
 
 import lombok.Data;
+
+
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "account", schema = "bank")
@@ -15,10 +15,17 @@ public class Account
 {
 
   @Id
+//  @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
+
   private String accountNumber;
+  private String iban;
   private double currentBalance;
   private String bankName;
+  @Column(name = "user_id")
+  private long userId;
 
-  private transient List<Transaction> transactionList;
+
+  @Transient
+  private List<Transaction> transactions;
 }

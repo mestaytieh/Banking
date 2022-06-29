@@ -33,20 +33,21 @@ CREATE TABLE bank.userinfo (
 
 CREATE TABLE bank.account (
     id bigint NOT NULL PRIMARY KEY,
-    accountnumber varchar(10) NOT NULL,
-    currentbalance NUMERIC(100,3) NOT NULL,
-    bankname VARCHAR(50) NOT NULL,
-    userid bigint not null REFERENCES bank.userinfo(id),
-    UNIQUE (accountnumber)
+    account_number varchar(10) NOT NULL,
+    iban VARCHAR(100),
+    current_balance NUMERIC(100,3) NOT NULL,
+    bank_name VARCHAR(50) NOT NULL,
+    user_id bigint not null REFERENCES bank.userinfo(id),
+    UNIQUE (account_number)
 );
 
 CREATE SEQUENCE bank.transaction_sequence START WITH 2;
+
 CREATE TABLE bank.transaction (
     id bigint NOT NULL PRIMARY KEY,
-    sourceaccountid bigint REFERENCES bank.account(id),
-    targetaccountid bigint REFERENCES bank.account(id),
+    account_id bigint REFERENCES bank.account(id),
+    iban VARCHAR(100),
     amount NUMERIC(100,3) NOT NULL,
-    initiationdate timestamp NOT NULL,
-    completiondate TIMESTAMP,
-    transactionreason VARCHAR(500)
+    creation_date timestamp NOT NULL,
+    transaction_reason VARCHAR(500)
 );

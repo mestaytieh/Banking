@@ -16,11 +16,10 @@ public class Transaction
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_seq")
   private long id;
-  private long sourceAccountId;
-  private long targetAccountId;
-  private double amount;
-  private Timestamp initiationDate;
-  private Timestamp completionDate;
+  private long accountId;
+  private String iban;
+  private Long amount;
+  private Timestamp creationDate;
   private String transactionReason;
 
 
