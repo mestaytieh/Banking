@@ -18,11 +18,6 @@ public class AccountService
     Optional<Account> account = accountRepository
         .findByAccountNumber( accountNumber);
 
-
-//    account.ifPresent(value ->
-//        value.setTransactions(transactionRepository
-//            .findBySourceAccountIdOrderByInitiationDate(value.getId())));
-
    return account.orElse(null);
   }
 

@@ -17,18 +17,18 @@ CREATE TABLE bank.address (
 
 CREATE TABLE bank.userinfo (
     id bigint NOT NULL PRIMARY KEY,
-    username varchar(100) NOT NULL,
-    firstname varchar(200) NOT NULL,
-    surname varchar(200) NOT NULL,
-    usertype varchar(100) NOT NULL,
-    passwordHash varchar(200) NOT NULL,
+    user_name varchar(100) NOT NULL,
+    first_name varchar(200) NOT NULL,
+    sur_name varchar(200) NOT NULL,
+    user_type varchar(100) NOT NULL,
+    password_Hash varchar(200) NOT NULL,
     pepper varchar(50) NOT NULL,
     salt varchar (100) NOT NULL,
-    bankname VARCHAR(50) NOT NULL,
+    bank_name VARCHAR(50) NOT NULL,
     email VARCHAR (200),
     phone VARCHAR (30),
     address bigint REFERENCES bank.address(id),
-    UNIQUE (username,bankname)
+    UNIQUE (user_name,bank_name)
 );
 
 CREATE TABLE bank.account (

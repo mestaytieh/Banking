@@ -5,13 +5,13 @@ values (2, 'Employee');
 INSERT INTO bank.usertype (id,usertype)
 values (3, 'Customer');
 
-INSERT INTO bank.userinfo (id,username,firstname,surname,usertype,passwordhash,pepper,salt,bankname)
+INSERT INTO bank.userinfo (id,user_name,first_name,sur_name,user_type,password_hash,pepper,salt,bank_name)
 values (1,'jane.doe','Jane','Doe','Admin','3asd54q415as7d6ref51as65dj12oiaskd4','asd64a5das5d46a5s4d6a5as6d54','39123*/)123a+','World Bank');
-INSERT INTO bank.userinfo (id,username,firstname,surname,usertype,passwordhash,pepper,salt,bankname)
+INSERT INTO bank.userinfo (id,user_name,first_name,sur_name,user_type,password_hash,pepper,salt,bank_name)
 values (2,'john.doe','John','Doe','Employee','3496rjlskdtup04jffdsguy328ruaskdjfl','ldjuhrlgds8yh5ejblak2344tki234','39123*/)123a+','World Bank');
-INSERT INTO bank.userinfo (id,username,firstname,surname,usertype,passwordhash,pepper,salt,bankname)
+INSERT INTO bank.userinfo (id,user_name,first_name,sur_name,user_type,password_hash,pepper,salt,bank_name)
 values (3,'batman','Bruce','Wayne','Customer','dseli56u3i82rfklfsaog98u5erasdf25aewt45t','sarglaeu4thladsufeakrlifksaf','39123*/)123a+','World Bank');
-INSERT INTO bank.userinfo (id,username,firstname,surname,usertype,passwordhash,pepper,salt,bankname)
+INSERT INTO bank.userinfo (id,user_name,first_name,sur_name,user_type,password_hash,pepper,salt,bank_name)
 values (4,'mestaytieh','Mohammad','Estaytieh','Customer','afleaur4th3i4uthrkseu754szyfgresu47f','2rkiwaeyytaki34uyf7ytkzgudr','39123*/)123a+','World Bank');
 
 INSERT INTO bank.account (id, account_number, current_balance, bank_name, user_id,iban)

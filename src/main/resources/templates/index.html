@@ -19,12 +19,30 @@
         <div class="col-md-3"></div>
         <div class="col-md-6">
             <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="panel-title"><strong>Accounts</strong></h3></div>
+                <div class="panel-heading"><h3 class="panel-title"><strong>User</strong></h3></div>
+                <div class="panel-body">
+                    <br/>
+                    <input type="text" id = "customerId" class="p-3" />
+                    <button type="button" class="btn btn-success" onclick="getUserInfo()" value="Get User"><span class="glyphicon glyphicon-user"></span> Get User </button>
+                    <div class="panel-body" id="UserInfo">
+                        <label>Name: </label> <b id ="First_Name"></b> <br/>
+                        <label>Surname: </label> <b id ="Sur_Name"></b> <br/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><strong>Account</strong></h3></div>
                 <div class="panel-body">
 
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addAccount">
                         <span class="glyphicon glyphicon-folder-open"></span> Add Account</button>
-
+                    <br/>
                 </div>
             </div>
         </div>
@@ -39,3 +57,21 @@
 </body>
 
 </html>
+<script type="text/javascript">
+    function getUserInfo()
+    {
+            var customerId = $("#customerId").val();
+            $.get("api/userinfo/userbyCustomerId/"+customerId,function(response) {
+                console.log("userbyCustomerId", response)
+                if(response != undefined) {
+                    $("#First_Name").text(response.firstName);
+                    $("#Sur_Name").text(response.surName);
+
+                    alert("success");
+                } else {
+                    alert("CustomerId Not Found");
+                }
+            });
+    }
+
+</script>
