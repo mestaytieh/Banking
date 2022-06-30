@@ -31,6 +31,9 @@ CREATE TABLE bank.userinfo (
     UNIQUE (user_name,bank_name)
 );
 
+
+CREATE SEQUENCE bank.account_sequence START WITH 3;
+
 CREATE TABLE bank.account (
     id bigint NOT NULL PRIMARY KEY,
     account_number varchar(10),
