@@ -22,7 +22,7 @@
                 <div class="panel-heading"><h3 class="panel-title"><strong>User</strong></h3></div>
                 <div class="panel-body">
                     <br/>
-                    <input type="text" id = "customerId" class="p-3" />
+                    <input type="text" id = "customerIdField" class="form-control p-3" />
                     <button type="button" class="btn btn-success" onclick="getUserInfo()" value="Get User"><span class="glyphicon glyphicon-user"></span> Get User </button>
                     <div class="panel-body" id="UserInfo">
                         <label>Name: </label> <b id ="First_Name"></b> <br/>
@@ -40,8 +40,27 @@
                 <div class="panel-heading"><h3 class="panel-title"><strong>Account</strong></h3></div>
                 <div class="panel-body">
 
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addAccount">
-                        <span class="glyphicon glyphicon-folder-open"></span> Add Account</button>
+
+                            <!-- Modal content-->
+<!--                                    <form th:object="${createAccountForm}" th:action="@{/addAccount}" method="post">-->
+<!--                                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
+
+
+                                        <div class="form-group">
+                                            <label>Customer Id</label>
+                                            <input type="text" class="form-control" id="customerId"
+                                                   name="customerId" placeholder="Receiver IBAN" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Initial Credit</label>
+                                            <input type="number" class="form-control" id="initialCredit"
+                                                   name="credit" placeholder="credit" required>
+                                        </div>
+                                        <button id="addBtn" type="button" onclick="createAccount()" class="btn btn-md btn-primary btn-block">Create Account</button>
+<!--                                    </form>-->
+
+
                     <br/>
                 </div>
             </div>
@@ -60,7 +79,7 @@
 <script type="text/javascript">
     function getUserInfo()
     {
-            var customerId = $("#customerId").val();
+            var customerId = $("#customerIdField").val();
             $.get("api/userinfo/userbyCustomerId/"+customerId,function(response) {
                 console.log("userbyCustomerId", response)
                 if(response != undefined) {
@@ -72,6 +91,68 @@
                     alert("CustomerId Not Found");
                 }
             });
+    }
+
+    function createAccount()
+    {
+        var customerId = $("#customerId").val();
+        var initialCredit = $("#initialCredit").val();
+        $.post("api/accounts/addAccount",
+            {
+                customerId: "Donald Duck",
+                city: "initialCredit"
+            },
+            function(data, status){
+                alert("Data: " + data + "\nStatus: " + status);
+            });
+    }
+
+    function createAccount2()
+    {
+        var customerId = $("#customerId").val();
+        var initialCredit = $("#initialCredit").val();
+        $.post("api/accounts/addAccount2",
+            {
+                customerId: "Donald Duck",
+                city: "initialCredit"
+            },
+            function(data, status){
+                alert("Data: " + data + "\nStatus: " + status);
+            });
+    }
+
+    function createAccount3()
+    {
+        var customerId = $("#customerId").val();
+        var initialCredit = $("#initialCredit").val();
+        $.post("api/accounts/saveData",
+            {
+                customerId: "Donald Duck",
+                city: "initialCredit"
+            },
+            function(data, status){
+                alert("Data: " + data + "\nStatus: " + status);
+            });
+    }
+    function createAccount4() {
+        $.ajax({
+            url: 'api/accounts/createAcount',
+            dataType: 'jsonp',
+            type: 'post',
+            cors: false ,
+            contentType: 'application/json',
+            data: JSON.stringify({"customerId": $('#customerId').val(), "initialCredit": $('#initialCredit').val()}),
+            processData: false,
+            secure: true,
+            success: function (data, textStatus, jQxhr) {
+                console.log("JSON.stringify(data)",JSON.stringify(data));
+                $('#response pre').html(JSON.stringify(data));
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+
     }
 
 </script>

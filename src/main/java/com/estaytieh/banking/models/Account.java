@@ -15,9 +15,9 @@ public class Account
 {
 
   @Id
-//  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
-
+  
   private String accountNumber;
   private String iban;
   private double currentBalance;

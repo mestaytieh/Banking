@@ -21,8 +21,17 @@ public class AccountService
    return account.orElse(null);
   }
 
+  public List<Account> getAccountsBytUserId(String userId) {
+    return accountRepository
+        .findAccountsByUserId( userId);
+  }
   public List<Account> getAllAccounts()
   {
     return accountRepository.findAll();
+  }
+
+  public Account saveAccount(Account account)
+  {
+    return accountRepository.save(account);
   }
 }

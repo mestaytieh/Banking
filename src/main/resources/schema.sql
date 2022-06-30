@@ -33,10 +33,10 @@ CREATE TABLE bank.userinfo (
 
 CREATE TABLE bank.account (
     id bigint NOT NULL PRIMARY KEY,
-    account_number varchar(10) NOT NULL,
+    account_number varchar(10),
     iban VARCHAR(100),
     current_balance NUMERIC(100,3) NOT NULL,
-    bank_name VARCHAR(50) NOT NULL,
+    bank_name VARCHAR(50) ,
     user_id bigint not null REFERENCES bank.userinfo(id),
     UNIQUE (account_number)
 );
