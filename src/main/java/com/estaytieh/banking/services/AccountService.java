@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AccountService
@@ -21,10 +22,25 @@ public class AccountService
    return account.orElse(null);
   }
 
-  public List<Account> getAccountsBytUserId(String userId) {
+  public List<Account> getAccountsBytUserId(Long userId) {
     return accountRepository
-        .findAccountsByUserId( userId);
+        .findAccountsByUserId(userId);
   }
+  public List<Long> getAccountIdBytUserId(Long userId) {
+    List<Account> accounts = getAccountsBytUserId(userId);
+    return  accounts.stream()
+        .map(account -> account.getId()) // <<< this
+        .collect(Collectors.toList());
+  }
+  public Double getUserBalance(Long userId) {
+    Double balance = 0.0;
+    List<Account> accounts = getAccountsBytUserId(userId);
+
+    return accounts.stream()
+        .mapToDouble(x -> x.getCurrentBalance())
+        .sum();
+  }
+
   public List<Account> getAllAccounts()
   {
     return accountRepository.findAll();
@@ -34,4 +50,13 @@ public class AccountService
   {
     return accountRepository.save(account);
   }
+
+  public Long createNewAccount(Long userId,Double initialCredit)
+  {
+    Account account = new Account();
+    account.setUserId(userId);
+    account.setCurrentBalance(initialCredit);
+    return saveAccount(account).getId();
+  }
+
 }

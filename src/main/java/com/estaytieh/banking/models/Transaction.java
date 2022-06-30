@@ -18,7 +18,7 @@ public class Transaction
   private long id;
   private long accountId;
   private String iban;
-  private Long amount;
+  private Double amount;
   private Timestamp creationDate;
   private String transactionReason;
 

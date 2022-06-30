@@ -21,4 +21,17 @@ public class UserInfoService
     return userinfo.orElse(null);
   }
 
+  public Long getUserId(String userName) {
+    Userinfo userinfo = getUserInfo(userName);
+    return userinfo != null ? userinfo.getId() : null;
+
+  }
+
+  public Userinfo getUserById(Long Id) {
+    Optional<Userinfo> userinfo = userInfoRepository
+        .findById(Id);
+
+    return userinfo.orElse(null);
+  }
+
 }

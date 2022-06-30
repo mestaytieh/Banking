@@ -5,12 +5,12 @@ import com.estaytieh.banking.models.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface TransactionRepository
     extends JpaRepository<Transaction, Long> {
 
-  //  @Query("SELECT a FROM Account a WHERE a.accountNumber = ?1 ")
-  Optional<Transaction> findTransactionByAccountId(Long accountId);
+  List<Transaction> findTransactionByAccountId(long accountId);
 }

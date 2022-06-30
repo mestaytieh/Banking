@@ -16,7 +16,7 @@ public interface AccountRepository
 //  @Query("SELECT a FROM Account a WHERE a.accountNumber = ?1 ")
   Optional<Account> findByAccountNumber(String accountNumber);
 
-  List<Account> findAccountsByUserId(String userId);
+  List<Account> findAccountsByUserId(Long userId);
 
 }
 

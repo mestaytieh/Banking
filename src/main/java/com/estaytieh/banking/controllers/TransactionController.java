@@ -37,28 +37,21 @@ public class TransactionController {
   }
 
   @GetMapping(value = "/createTransaction", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> makeTransfer() {
+  public ResponseEntity<?> createTransaction() {
 
     Transaction newtransaction = new Transaction();
     newtransaction.setAccountId(1);
     newtransaction.setIban("WB111321322");
-    newtransaction.setAmount((long) 123.456);
+    newtransaction.setAmount((double) 123.456);
     newtransaction.setCreationDate(new Timestamp(System.currentTimeMillis()));
-    newtransaction.setTransactionReason("manyake");
+    newtransaction.setTransactionReason("test transaction");
     boolean isComplete = transactionService.createTransaction(newtransaction);
     if (isComplete){
       List<Account> accounts = accountService.getAllAccounts();
       List<Transaction> transactions = transactionService.getAllTransactions();
+      combineAccountsWithTransctions(accounts,transactions);
 
 
-      accounts.stream()
-          .forEach(account -> transactions.stream()
-              .filter(transaction -> transaction.getAccountId() == account.getId() || transaction.getIban().equals(account.getIban()))
-              .forEach(transaction -> {
-                if (account.getTransactions() == null)
-                  account.setTransactions(new ArrayList<>());
-                account.getTransactions().add(transaction);
-              }));
 
       if (accounts == null) {
         return new ResponseEntity<>(TRANSACTION_FAILED, HttpStatus.NO_CONTENT);
@@ -70,4 +63,16 @@ public class TransactionController {
     }
   }
 
+  private List<Account> combineAccountsWithTransctions( List<Account> accounts,List<Transaction> transactions)
+  {
+    accounts.stream()
+        .forEach(account -> transactions.stream()
+            .filter(transaction -> transaction.getAccountId() == account.getId() || transaction.getIban().equals(account.getIban()))
+            .forEach(transaction -> {
+              if (account.getTransactions() == null)
+                account.setTransactions(new ArrayList<>());
+              account.getTransactions().add(transaction);
+            }));
+    return accounts;
+  }
 }

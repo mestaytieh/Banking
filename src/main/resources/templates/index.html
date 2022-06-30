@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="components/header :: header"></head>
+<head th:replace="components/header :: header">
+    <!-- Include Bootstrap for styling -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- Include the Bootstrap Table CSS
+    for the table -->
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css">
+</head>
 
 <body>
 <nav th:replace="components/top-nav :: nav-after-log"></nav>
@@ -23,10 +30,34 @@
                 <div class="panel-body">
                     <br/>
                     <input type="text" id = "customerIdField" class="form-control p-3" />
-                    <button type="button" class="btn btn-success" onclick="getUserInfo()" value="Get User"><span class="glyphicon glyphicon-user"></span> Get User </button>
+                    <br/>
+                    <button type="button" class="btn btn-md btn-success btn-block" onclick="getUserInfo()" value="Get User"><span class="glyphicon glyphicon-user"></span> Get User </button>
                     <div class="panel-body" id="UserInfo">
                         <label>Name: </label> <b id ="First_Name"></b> <br/>
                         <label>Surname: </label> <b id ="Sur_Name"></b> <br/>
+                        <label>Balance: </label> <b id ="Balance"></b> <br/>
+                        <label>transactions: </label> <b id ="transactions"></b> <br/>
+                        <table id = "transactionTable" class="table-striped border-success">
+                            <thead>
+                            <tr>
+<!--                            <th data-field="id">-->
+<!--                            <span class="text-success">-->
+<!--                            Transaction Id-->
+<!--                            </span>-->
+<!--                            </th>-->
+
+                            <th data-field="creationDate">
+                                <span class="text-success">Transaction Date</span>
+                            </th>
+                            <th data-field="amount">
+                                <span class="text-success">Amount</span>
+                            </th>
+                            <th data-field="transactionReason">
+                                <span class="text-success">Transaction Reason</span>
+                            </th>
+                            </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -76,6 +107,13 @@
 </body>
 
 </html>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- Include the JavaScript file
+for Bootstrap table -->
+<script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
 <script type="text/javascript">
     function getUserInfo()
     {
@@ -85,70 +123,101 @@
                 if(response != undefined) {
                     $("#First_Name").text(response.firstName);
                     $("#Sur_Name").text(response.surName);
+                    getUserBalance(response.id);
+                    getUserTransactions(response.id);
 
-                    alert("success");
                 } else {
                     alert("CustomerId Not Found");
                 }
             });
     }
-
-    function createAccount()
+    function getUserBalance(userId)
     {
-        var customerId = $("#customerId").val();
-        var initialCredit = $("#initialCredit").val();
-        $.post("api/accounts/addAccount",
-            {
-                customerId: "Donald Duck",
-                city: "initialCredit"
-            },
-            function(data, status){
-                alert("Data: " + data + "\nStatus: " + status);
-            });
+        $.get("api/userinfo/userBalance/"+userId,function(response) {
+            console.log("userBalance", response)
+            if(response != undefined) {
+                $("#Balance").text(response);
+
+            } else {
+                alert("CustomerId Not Found");
+            }
+        });
     }
 
-    function createAccount2()
+    function getUserTransactions(userId)
     {
-        var customerId = $("#customerId").val();
-        var initialCredit = $("#initialCredit").val();
-        $.post("api/accounts/addAccount2",
-            {
-                customerId: "Donald Duck",
-                city: "initialCredit"
-            },
-            function(data, status){
-                alert("Data: " + data + "\nStatus: " + status);
-            });
+        $('#transactionTable').bootstrapTable('removeAll');
+        $.get("api/userinfo/userTransactions/"+userId,function(response) {
+            console.log("userTransactions", response)
+            if(response != undefined) {
+
+                $('#transactionTable').bootstrapTable({
+                    data: response
+                });
+                $('#transactionTable').bootstrapTable('load', response);
+                // $("#transactions").text(JSON.stringify(response));
+
+            } else {
+                alert("CustomerId Not Found");
+            }
+        });
     }
 
-    function createAccount3()
-    {
-        var customerId = $("#customerId").val();
-        var initialCredit = $("#initialCredit").val();
-        $.post("api/accounts/saveData",
-            {
-                customerId: "Donald Duck",
-                city: "initialCredit"
-            },
-            function(data, status){
-                alert("Data: " + data + "\nStatus: " + status);
-            });
-    }
-    function createAccount4() {
+    // function createAccount()
+    // {
+    //     var customerId = $("#customerId").val();
+    //     var initialCredit = $("#initialCredit").val();
+    //     $.post("api/accounts/addAccount",
+    //         {
+    //             customerId: "Donald Duck",
+    //             city: "initialCredit"
+    //         },
+    //         function(data, status){
+    //             alert("Data: " + data + "\nStatus: " + status);
+    //         });
+    // }
+
+
+    // function createAccount3()
+    // {
+    //     var customerId = $("#customerId").val();
+    //     var initialCredit = $("#initialCredit").val();
+    //     $.post("api/accounts/saveData",
+    //         {
+    //             customerId: "Donald Duck",
+    //             city: "initialCredit"
+    //         },
+    //         function(data, status){
+    //             alert("Data: " + data + "\nStatus: " + status);
+    //         });
+    // }
+    function createAccount() {
         $.ajax({
-            url: 'api/accounts/createAcount',
-            dataType: 'jsonp',
-            type: 'post',
+            url: 'api/accounts/createAccount',
+            dataType: 'json',
+            type: 'POST',
             cors: false ,
             contentType: 'application/json',
-            data: JSON.stringify({"customerId": $('#customerId').val(), "initialCredit": $('#initialCredit').val()}),
+            data: JSON.stringify({"customerId": $('#customerId').val(), "initialCredit": parseFloat($('#initialCredit').val())}),
             processData: false,
-            secure: true,
+            secure: false,
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': '*',
+                'Access-Control-Allow-Headers': 'api-key,content-type',
+                'Access-Control-Allow-Credentials': 'true'
+            },
             success: function (data, textStatus, jQxhr) {
+                alert("Account created successfully");
+                $("#customerIdField").val($('#customerId').val());
+                getUserInfo();
+                console.log(data);
                 console.log("JSON.stringify(data)",JSON.stringify(data));
                 $('#response pre').html(JSON.stringify(data));
             },
             error: function (jqXhr, textStatus, errorThrown) {
+                alert("Could not create new Account");
+                console.log("error",textStatus);
                 console.log(errorThrown);
             }
         });
