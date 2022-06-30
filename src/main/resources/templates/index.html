@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="components/header :: header"></head>
+
+<body>
+<nav th:replace="components/top-nav :: nav-after-log"></nav>
+
+
+<!-- Page Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h1 class="mt-5">Online Banking</h1>
+            <p class="lead">Create Accounts</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><strong>Accounts</strong></h3></div>
+                <div class="panel-body">
+
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addAccount">
+                        <span class="glyphicon glyphicon-folder-open"></span> Add Account</button>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
+
+
+<!-- Bootstrap core JavaScript -->
+
+</body>
+
+</html>
