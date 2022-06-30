@@ -1,9 +1,9 @@
 # Banking
 Example project showing how to develop a microservice for an online bank using Java , Java Stream, in Memory Database and Spring-boot
 ## Running locally
-```
-Java 18 required
-```
+1. Java 18 required
+2. for local testing run development branch
+
 ```
 ./mvnw clean package
 java -jar target/Banking-0.0.1.jar
